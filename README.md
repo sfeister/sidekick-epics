@@ -7,3 +7,5 @@ Once you've gained familiarity, the setup is extremely modular – re-made in a 
 The architecture of this "sidekick" test system would go alongside a real laboratory system based in the same EPICS infrastructure. The "sidekick" system is based on Arduinos and Raspberry Pis, so as to be very approachable, rather than high-performance. Most importantly, this setup can be bought for under $300 and set up on an office desk.
  
 We think building small test setups in EPICS, could accelerate our scholarly progress, help us communicate our science, be a great opportunity for student involvement, and even be quite a bit of fun. We hope you enjoy and learn from getting your feet wet with this "sidekick" EPICS project.
+
+Created by Dr. Scott Feister and undergraduates Keily Valdez-Sereno and Emiko Ito, of California State University Channel Islands, and in collaboration with researchers in the Cognitive Simulation Team at Lawrence Livermore National Laboratory.
