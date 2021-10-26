@@ -52,7 +52,7 @@ int chanPins[NCHAN]; // Pins for each channel
 int delays[NCHAN]; // Millisecond delay times for each channel
 
 int pulseTime = 3000; // TTL pulse duration in microseconds
-double repRate = 1; // pulse repetition-rate in Hz
+double repRate = 0.5; // pulse repetition-rate in Hz
 unsigned long t0;
 
 /* Timing functions */
@@ -190,5 +190,5 @@ void setup() {
 void loop() {
   timer1.tick();
   timer2.tick();
-  my_instrument.ProcessInput(Serial, "\r\n")
+  my_instrument.ProcessInput(Serial, "\r\n");
 }

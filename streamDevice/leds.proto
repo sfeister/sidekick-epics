@@ -1,0 +1,17 @@
+terminator = CR LF;
+
+info {
+	ExtraInput = Ignore;
+	out "*IDN?";
+	in "%39c";
+}
+
+set {
+	out "DURation:LED0 %d";
+}
+
+debug {
+   ExtraInput = Ignore;
+   out "%s";
+   in "%39c";
+}

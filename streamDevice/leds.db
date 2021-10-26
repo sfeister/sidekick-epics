@@ -1,0 +1,16 @@
+record(stringin,"LEDS:info"){
+	field(DTYP,"stream")
+	field(INP,"@leds.proto info led_ino")
+	field(SCAN,".5 second")
+}
+
+record(ai,"LEDS:CH0:val"){
+	field(DTYP,"stream")
+	field(INP,"@leds.proto set led_ino")
+	field(SCAN,".5 second")
+}
+
+record(stringin,"LEDS:debug"){
+	field(DTYP,"stream")
+	field(INP,"@leds.proto debug led_ino")
+}
