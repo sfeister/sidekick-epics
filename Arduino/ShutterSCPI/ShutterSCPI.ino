@@ -41,14 +41,16 @@ unsigned long duration1 = 500000; // duration of the shutter being open, in micr
 unsigned long t0;
 
 /* Shutter control functions */
-void shutterClose() {
+bool shutterClose(void *argument) {
   // Close the shutter  
   myservo.write(0);
+  return false; // to repeat the action - false to stop
 }
 
-void shutterOpen() {
+bool shutterOpen(void *argument) {
   // Open the shutter
   myservo.write(90);
+  return false; // to repeat the action - false to stop
 }
 
 /* Timing functions */
@@ -60,8 +62,8 @@ void myISR() {
       t0 = micros() + 1000; // Set "shutter time-zero" to one thousand microseconds into the future to get everything set up first
 
       // Schedule the acquisition starts and stops
-      timer1.at(t0, shutterOpen, 0); // Set the start time for the shutter to open
-      timer1.at(t0 + duration1, shutterClose, 0); // Set the stop time for the shutter to close (must be significantly after the start time)
+      timer1.at(t0, shutterOpen, NULL); // Set the start time for the shutter to open
+      timer1.at(t0 + duration1, shutterClose, NULL); // Set the stop time for the shutter to close (must be significantly after the start time)
     }
 }
 
@@ -90,7 +92,8 @@ void setup() {
   myservo.attach(SERVOPIN);                               //connects the name 'myservo' to the pin the Servo is attached to
 
   attachInterrupt(digitalPinToInterrupt(EXTTRIG), myISR, RISING); // Set up external triggering
-  
+
+  shutterClose(NULL);
   Serial.begin(9600);                                     //begins the Serial.monitor sequence
 }
 

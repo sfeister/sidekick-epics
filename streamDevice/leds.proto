@@ -1,4 +1,7 @@
-terminator = CR LF;
+# Sidekick EPICS LEDs protocol file
+# Built by examining examples at: https://paulscherrerinstitute.github.io/StreamDevice/protocol.html#gen
+
+Terminator = CR LF;
 
 info {
 	ExtraInput = Ignore;
@@ -6,8 +9,20 @@ info {
 	in "%39c";
 }
 
+# Brightness is an integer, 0 to 255
+# Use long integer record type
+getBrightness {
+        out "BRIGhtness:LED\$1?";
+        in "%i";
+    }
+
+setBrightness {
+        out "BRIGhtness:LED\$1 %i";
+        @init { getBrightness; }
+    }
+    
 set {
-	out "DURation:LED0 %d";
+	out "DURation:LED\$1 %d";
 }
 
 debug {

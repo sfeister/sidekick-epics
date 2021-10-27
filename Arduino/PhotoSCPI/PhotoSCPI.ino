@@ -35,7 +35,7 @@ Created by Emiko Ito, Keily Valdez-Sereno, and Scott Feister of California State
 
 Timer<3, micros> timer1; // Timer with 3 task slots, microsecond resolution, and handler argument type void
 
-unsigned long duration1 = 200000; // duration of the photodiode measurement, in microseconds
+unsigned long duration1 = 400000; // duration of the photodiode measurement, in microseconds
 double integration = 0; // resultant integration value following photodiode measurement
 unsigned long sum = 0; // temporary sum used during integration
 unsigned long dt = 200; // microseconds between consecutive ADC measurements; must be large enough that it happens reliably on-time (keep above ~200 microseconds)
