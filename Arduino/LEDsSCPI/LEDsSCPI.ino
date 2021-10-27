@@ -178,12 +178,12 @@ void setup() {
   LEDPins[5] = LED5;
     
   // Set initial LED pulse durations (in microseconds)
-  durations[0] = 100000;
-  durations[1] = 150000;
-  durations[2] = 200000;
-  durations[3] = 250000;
-  durations[4] = 350000;
-  durations[5] = 450000;
+  durations[0] =  20000;
+  durations[1] =  50000;
+  durations[2] = 150000;
+  durations[3] =  80000;
+  durations[4] =  35000;
+  durations[5] = 100000;
 
   // Set intial LED brightnesses
   brights[0] = 200;
