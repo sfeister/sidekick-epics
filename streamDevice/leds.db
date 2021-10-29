@@ -6,7 +6,7 @@ record(stringin,"LEDS:info"){
 
 record(ai,"LEDS:CH0:val"){
 	field(DTYP,"stream")
-	field(INP,"@leds.proto set led_ino")
+	field(INP,"@leds.proto getBrightness led_ino")
 	field(SCAN,".5 second")
 }
 
