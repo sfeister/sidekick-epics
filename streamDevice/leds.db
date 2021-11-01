@@ -1,14 +1,41 @@
 record(stringin,"LEDS:info"){
 	field(DTYP,"stream")
 	field(INP,"@leds.proto info led_ino")
-	field(SCAN,".5 second")
+    field(PINI, "YES")
+	field(SCAN,"1 second")
 }
 
-record(ai,"LEDS:CH0:val"){
+
+record(ai,"LEDS:CH0:brig-get"){
+    field (DESC, "Get LED brightness")
 	field(DTYP,"stream")
-	field(INP,"@leds.proto getBrightness led_ino")
-	field(SCAN,".5 second")
+	field(INP,"@leds.proto getBrightness(0) led_ino")
+    field(PINI, "YES")
+	field(SCAN,".1 second")
 }
+
+record(ao,"LEDS:CH0:brig-set"){
+    field (DESC, "Set LED brightness")
+	field(DTYP,"stream")
+	field(OUT,"@leds.proto setBrightness(0) led_ino")
+}
+
+record(int64in,"LEDS:CH0:dur-get"){
+    field (DESC, "Get LED duration")
+	field(DTYP,"stream")
+	field(INP,"@leds.proto getDuration(0) led_ino")
+    field(PINI, "YES")
+	field(SCAN,".1 second")
+}
+
+record(int64out,"LEDS:CH0:dur-set"){
+    field (DESC, "Set LED duration")
+	field(DTYP,"stream")
+	field(OUT,"@leds.proto setDuration(0) led_ino")
+}
+
+
+
 
 record(stringin,"LEDS:debug"){
 	field(DTYP,"stream")

@@ -12,21 +12,28 @@ info {
 # Brightness is an integer, 0 to 255
 # Use long integer record type
 getBrightness {
-        #out "BRIGhtness:LED\$1?";
-        out "BRIGhtness:LED0?";
+        out "BRIGhtness:LED\$1?";
         in "%i";
     }
 
 setBrightness {
-        #out "BRIGhtness:LED\$1 %i";
-        out "BRIGhtness:LED0 %i";
+        out "BRIGhtness:LED\$1 %i";
         @init { getBrightness; }
     }
-    
-#setDuration {
-#	out "DURation:LED\$1 %d";
-#}
 
+
+# Duration is an unsigned long integer
+# Use int64 record type
+getDuration {
+        out "DURation:LED\$1?";
+        in "%i";
+    }
+
+setDuration {
+        out "DURation:LED\$1 %i";
+        @init { getDuration; }
+    }
+    
 debug {
    ExtraInput = Ignore;
    out "%s";
