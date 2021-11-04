@@ -1,0 +1,107 @@
+record(stringin,"PULSEGEN:info"){
+    field (DESC, "Get information about the LED device")
+	field(DTYP,"stream")
+	field(INP,"@pulsegen.proto info pulsegen_ino")
+    field(PINI, "YES")
+}
+
+record(ao,"PULSEGEN:reprate"){
+    field (DESC, "Set repetition rate for all pulse channels")
+	field(DTYP,"stream")
+    field(DRVL,"0")
+	field(EGU,"Hz")
+	field(OUT,"@pulsegen.proto setRepRate pulsegen_ino")
+}
+
+# Channel 0
+record(int64out,"PULSEGEN:CH0:delay"){
+    field(DESC, "Set pulse delay time")
+	field(DTYP,"stream")
+	field(DRVL,"0")
+	field(DRVH,"4294967295") # on Arduino, saved as unsigned 32-bit integer; max value is 2^32 - 1
+	field(EGU,"micros")
+	field(OUT,"@pulsegen.proto setDelay(0) pulsegen_ino")
+}
+
+
+# Channel 1
+record(int64out,"PULSEGEN:CH1:delay"){
+    field(DESC, "Set pulse delay time")
+	field(DTYP,"stream")
+	field(DRVL,"0")
+	field(DRVH,"4294967295") # on Arduino, saved as unsigned 32-bit integer; max value is 2^32 - 1
+	field(EGU,"micros")
+	field(OUT,"@pulsegen.proto setDelay(1) pulsegen_ino")
+}
+
+
+# Channel 2
+record(int64out,"PULSEGEN:CH2:delay"){
+    field(DESC, "Set pulse delay time")
+	field(DTYP,"stream")
+	field(DRVL,"0")
+	field(DRVH,"4294967295") # on Arduino, saved as unsigned 32-bit integer; max value is 2^32 - 1
+	field(EGU,"micros")
+	field(OUT,"@pulsegen.proto setDelay(2) pulsegen_ino")
+}
+
+
+# Channel 3
+record(int64out,"PULSEGEN:CH3:delay"){
+    field(DESC, "Set pulse delay time")
+	field(DTYP,"stream")
+	field(DRVL,"0")
+	field(DRVH,"4294967295") # on Arduino, saved as unsigned 32-bit integer; max value is 2^32 - 1
+	field(EGU,"micros")
+	field(OUT,"@pulsegen.proto setDelay(3) pulsegen_ino")
+}
+
+
+# Channel 4
+record(int64out,"PULSEGEN:CH4:delay"){
+    field(DESC, "Set pulse delay time")
+	field(DTYP,"stream")
+	field(DRVL,"0")
+	field(DRVH,"4294967295") # on Arduino, saved as unsigned 32-bit integer; max value is 2^32 - 1
+	field(EGU,"micros")
+	field(OUT,"@pulsegen.proto setDelay(4) pulsegen_ino")
+}
+
+
+# Channel 5
+record(int64out,"PULSEGEN:CH5:delay"){
+    field(DESC, "Set pulse delay time")
+	field(DTYP,"stream")
+	field(DRVL,"0")
+	field(DRVH,"4294967295") # on Arduino, saved as unsigned 32-bit integer; max value is 2^32 - 1
+	field(EGU,"micros")
+	field(OUT,"@pulsegen.proto setDelay(5) pulsegen_ino")
+}
+
+
+# Channel 6
+record(int64out,"PULSEGEN:CH6:delay"){
+    field(DESC, "Set pulse delay time")
+	field(DTYP,"stream")
+	field(DRVL,"0")
+	field(DRVH,"4294967295") # on Arduino, saved as unsigned 32-bit integer; max value is 2^32 - 1
+	field(EGU,"micros")
+	field(OUT,"@pulsegen.proto setDelay(6) pulsegen_ino")
+}
+
+
+# Channel 7
+record(int64out,"PULSEGEN:CH7:delay"){
+    field(DESC, "Set pulse delay time")
+	field(DTYP,"stream")
+	field(DRVL,"0")
+	field(DRVH,"4294967295") # on Arduino, saved as unsigned 32-bit integer; max value is 2^32 - 1
+	field(EGU,"micros")
+	field(OUT,"@pulsegen.proto setDelay(7) pulsegen_ino")
+}
+
+
+record(stringin,"PULSEGEN:debug"){
+	field(DTYP,"stream")
+	field(INP,"@pulsegen.proto debug pulsegen_ino")
+}

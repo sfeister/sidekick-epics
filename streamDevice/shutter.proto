@@ -13,11 +13,11 @@ info {
 # Use int64 record type
 getDuration {
         out "SHUtter:DURation?";
-        in "%i";
+        in "%u";
     }
 
 setDuration {
-        out "SHUtter:DURation %i";
+        out "SHUtter:DURation %u";
         @init { getDuration; }
     }
     

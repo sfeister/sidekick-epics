@@ -1,0 +1,41 @@
+# Sidekick EPICS Arduino Pulse Generator protocol file
+# Built by examining examples at: https://paulscherrerinstitute.github.io/StreamDevice/protocol.html#gen
+
+Terminator = CR LF;
+
+info {
+	ExtraInput = Ignore;
+	out "*IDN?";
+	in "%39c";
+}
+
+# Repetition rate is a float (positive-definite)
+# Use analog output record type
+getRepRate {
+        out "REPrate?";
+        in "%f";
+    }
+
+setRepRate {
+        out "REPrate %f";
+        @init { getRepRate; }
+    }
+
+
+# Delay is an unsigned long integer
+# Use int64 record type
+getDelay {
+        out "DELay:CHannel\$1?";
+        in "%u";
+    }
+
+setDelay {
+        out "DELay:CHannel\$1 %u";
+        @init { getDelay; }
+    }
+    
+debug {
+   ExtraInput = Ignore;
+   out "%s";
+   in "%39c";
+}

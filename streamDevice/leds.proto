@@ -13,11 +13,11 @@ info {
 # Use long integer record type
 getBrightness {
         out "BRIGhtness:LED\$1?";
-        in "%i";
+        in "%u";
     }
 
 setBrightness {
-        out "BRIGhtness:LED\$1 %i";
+        out "BRIGhtness:LED\$1 %u";
         @init { getBrightness; }
     }
 
@@ -26,11 +26,11 @@ setBrightness {
 # Use int64 record type
 getDuration {
         out "DURation:LED\$1?";
-        in "%i";
+        in "%u";
     }
 
 setDuration {
-        out "DURation:LED\$1 %i";
+        out "DURation:LED\$1 %u";
         @init { getDuration; }
     }
     
