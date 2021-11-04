@@ -1,39 +1,123 @@
 record(stringin,"LEDS:info"){
+    field (DESC, "Get information about the LED device")
 	field(DTYP,"stream")
 	field(INP,"@leds.proto info led_ino")
     field(PINI, "YES")
-	field(SCAN,"1 second")
 }
 
 
-record(ai,"LEDS:CH0:brig-get"){
-    field (DESC, "Get LED brightness")
-	field(DTYP,"stream")
-	field(INP,"@leds.proto getBrightness(0) led_ino")
-    field(PINI, "YES")
-	field(SCAN,".1 second")
-}
-
-record(ao,"LEDS:CH0:brig-set"){
+# Channel 0
+record(ao,"LEDS:CH0:brig"){
     field (DESC, "Set LED brightness")
 	field(DTYP,"stream")
+	field(DRVL,"0")
+	field(DRVH,"255")  
 	field(OUT,"@leds.proto setBrightness(0) led_ino")
 }
 
-record(int64in,"LEDS:CH0:dur-get"){
-    field (DESC, "Get LED duration")
+record(int64out,"LEDS:CH0:dur"){
+    field(DESC, "Set LED duration (output)")
 	field(DTYP,"stream")
-	field(INP,"@leds.proto getDuration(0) led_ino")
-    field(PINI, "YES")
-	field(SCAN,".1 second")
-}
-
-record(int64out,"LEDS:CH0:dur-set"){
-    field (DESC, "Set LED duration")
-	field(DTYP,"stream")
+	field(DRVL,"0")
+	field(DRVH,"4294967295") # on Arduino, saved as unsigned 32-bit integer; max value is 2^32 - 1
 	field(OUT,"@leds.proto setDuration(0) led_ino")
 }
 
+
+# Channel 1
+record(ao,"LEDS:CH1:brig"){
+    field (DESC, "Set LED brightness")
+	field(DTYP,"stream")
+	field(DRVL,"0")
+	field(DRVH,"255")  
+	field(OUT,"@leds.proto setBrightness(1) led_ino")
+}
+
+record(int64out,"LEDS:CH1:dur"){
+    field(DESC, "Set LED duration (output)")
+	field(DTYP,"stream")
+	field(DRVL,"0")
+	field(DRVH,"4294967295") # on Arduino, saved as unsigned 32-bit integer; max value is 2^32 - 1
+	field(OUT,"@leds.proto setDuration(1) led_ino")
+}
+
+
+
+# Channel 2
+record(ao,"LEDS:CH2:brig"){
+    field (DESC, "Set LED brightness")
+	field(DTYP,"stream")
+	field(DRVL,"0")
+	field(DRVH,"255")  
+	field(OUT,"@leds.proto setBrightness(2) led_ino")
+}
+
+record(int64out,"LEDS:CH2:dur"){
+    field(DESC, "Set LED duration (output)")
+	field(DTYP,"stream")
+	field(DRVL,"0")
+	field(DRVH,"4294967295") # on Arduino, saved as unsigned 32-bit integer; max value is 2^32 - 1
+	field(OUT,"@leds.proto setDuration(2) led_ino")
+}
+
+
+# Channel 3
+record(ao,"LEDS:CH3:brig"){
+    field (DESC, "Set LED brightness")
+	field(DTYP,"stream")
+	field(DRVL,"0")
+	field(DRVH,"255")  
+	field(OUT,"@leds.proto setBrightness(3) led_ino")
+}
+
+record(int64out,"LEDS:CH3:dur"){
+    field(DESC, "Set LED duration (output)")
+	field(DTYP,"stream")
+	field(DRVL,"0")
+	field(DRVH,"4294967295") # on Arduino, saved as unsigned 32-bit integer; max value is 2^32 - 1
+	field(OUT,"@leds.proto setDuration(3) led_ino")
+}
+
+
+
+
+
+# Channel 4
+record(ao,"LEDS:CH4:brig"){
+    field (DESC, "Set LED brightness")
+	field(DTYP,"stream")
+	field(DRVL,"0")
+	field(DRVH,"255")  
+	field(OUT,"@leds.proto setBrightness(4) led_ino")
+}
+
+record(int64out,"LEDS:CH4:dur"){
+    field(DESC, "Set LED duration (output)")
+	field(DTYP,"stream")
+	field(DRVL,"0")
+	field(DRVH,"4294967295") # on Arduino, saved as unsigned 32-bit integer; max value is 2^32 - 1
+	field(OUT,"@leds.proto setDuration(4) led_ino")
+}
+
+
+
+
+# Channel 5
+record(ao,"LEDS:CH5:brig"){
+    field (DESC, "Set LED brightness")
+	field(DTYP,"stream")
+	field(DRVL,"0")
+	field(DRVH,"255")  
+	field(OUT,"@leds.proto setBrightness(5) led_ino")
+}
+
+record(int64out,"LEDS:CH5:dur"){
+    field(DESC, "Set LED duration (output)")
+	field(DTYP,"stream")
+	field(DRVL,"0")
+	field(DRVH,"4294967295") # on Arduino, saved as unsigned 32-bit integer; max value is 2^32 - 1
+	field(OUT,"@leds.proto setDuration(5) led_ino")
+}
 
 
 
