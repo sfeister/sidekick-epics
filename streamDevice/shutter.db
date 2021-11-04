@@ -1,0 +1,20 @@
+record(stringin,"SHUTTER:info"){
+    field (DESC, "Get information about the Shutter device")
+	field(DTYP,"stream")
+	field(INP,"@shutter.proto info shutter_ino")
+    field(PINI, "YES")
+}
+
+record(int64out,"SHUTTER:dur"){
+    field(DESC, "Set shutter-open duration (output)")
+	field(DTYP,"stream")
+	field(DRVL,"0")
+	field(DRVH,"4294967295") # on Arduino, saved as unsigned 32-bit integer; max value is 2^32 - 1
+	field(OUT,"@shutter.proto setDuration shutter_ino")
+}
+
+
+record(stringin,"SHUTTER:debug"){
+	field(DTYP,"stream")
+	field(INP,"@shutter.proto debug shutter_ino")
+}

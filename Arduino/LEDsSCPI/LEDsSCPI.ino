@@ -84,7 +84,7 @@ void myISR() {
 
 /* Serial communication functions */
 void identify(SCPI_C commands, SCPI_P parameters, Stream& interface) {
-  interface.println(F("DolphinDAQ,Arduino Triggered LEDs,#00,v0.1"));
+  interface.println(F("DolphinDAQ,Arduino LEDs,#00,v0.1"));
 }
 
 void getBrightness(SCPI_C commands, SCPI_P parameters, Stream& interface) {

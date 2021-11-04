@@ -1,0 +1,28 @@
+# Sidekick EPICS Shutter protocol file
+# Built by examining examples at: https://paulscherrerinstitute.github.io/StreamDevice/protocol.html#gen
+
+Terminator = CR LF;
+
+info {
+	ExtraInput = Ignore;
+	out "*IDN?";
+	in "%39c";
+}
+
+# Duration is an unsigned long integer
+# Use int64 record type
+getDuration {
+        out "SHUtter:DURation?";
+        in "%i";
+    }
+
+setDuration {
+        out "SHUtter:DURation %i";
+        @init { getDuration; }
+    }
+    
+debug {
+   ExtraInput = Ignore;
+   out "%s";
+   in "%39c";
+}
