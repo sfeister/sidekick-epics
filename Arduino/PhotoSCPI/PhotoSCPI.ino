@@ -97,7 +97,7 @@ void setDuration(SCPI_C commands, SCPI_P parameters, Stream& interface) {
 }
 
 void getValue(SCPI_C commands, SCPI_P parameters, Stream& interface) { 
-  interface.println(integration);
+  interface.println(integration, 8); // Print to eight decimal places
 }
 
 void setup() {
