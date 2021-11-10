@@ -10,12 +10,15 @@ Important Notes:
  * This integration is the only measurement value obtainable via Serial commands.
  * External trigger should be wired to Arduino Pin 2.
  * Photodiode signal should be wired to Arduino Pin A0.
+ * Unsolicited, broadcasts data in a format "DATA: XXXXXX, TRIGCNT: XXXXXXX"
 
 Serial Commands (lower-case portions are optional):
   *IDN?                       Responds with a device identification string.
   MEASurement:DURation VAL    Sets photodiode ADC integration duration to VAL (unsigned long integer, in microseconds).
   MEASurement:DURation?       Responds with photodiode ADC integration pulse duration (unsigned long integer, in microseconds).
   MEASurement:VALue?          Responds with the integration measurement (double, in Volts-seconds) from the most recent acquisition.
+  SYStem:TRIGCount VAL        Sets the current system trigger count (unsigned long integer). Value is zero on startup and increments with each trigger input.
+  SYStem:TRIGCount?           Responds with the current system trigger count (unsigned long integer).
 
 References:
  1. Following timer instructions at: https://github.com/contrem/arduino-timer
@@ -40,9 +43,15 @@ double integration = 0; // resultant integration value following photodiode meas
 unsigned long sum = 0; // temporary sum used during integration
 unsigned long dt = 200; // microseconds between consecutive ADC measurements; must be large enough that it happens reliably on-time (keep above ~200 microseconds)
 unsigned long areadmax = 255; // analog read maximum value (255 for the 8-bit ADC on a typical Arduino)
+unsigned long trigcnt = 0; // trigger count
+unsigned long trigcnt_adc = 0; // trigger count of the active acquisition
+unsigned long trigcnt_dat = 0; // trigger count of the integrated data
 double areadmaxvolts = 3.3; // Analog read voltage corresponding to maximum value (3.3 V for a typical Arduino)
 bool ADCcontinue = false;
+bool DAQIsReady = false; // true only when all is clear to begin a new acquisition
 unsigned long t0;
+String datMsgPrefix = "DATA: ";
+String datMsgMiddle = ", TRIGCNT: ";
 
 SCPI_Parser my_instrument;
 
@@ -63,7 +72,10 @@ bool DAQStart(void *argument) {
 bool DAQStop(void *argument) {
     // End data acquisition from the photodiode and compute the integral
     ADCcontinue = false;
+    trigcnt_dat = trigcnt_adc;
     integration = (sum * dt) * (areadmaxvolts / areadmax) * 1e-6; // Compute integration value from sum, in Volt-seconds
+    Serial.println(datMsgPrefix + integration + datMsgMiddle + trigcnt_dat);
+    DAQIsReady = true; // allow another acquisition to occur
     return false; // to repeat the action - false to stop
 }
 
@@ -71,8 +83,13 @@ bool DAQStop(void *argument) {
 // Interrupt service routine (ISR): Called upon external trigger.
 // Starts one-time timers that govern the start/stop pulse of the ADC acquisition period
 void myISR() {
+    // Increment global trigger count (whether or not we use the data)
+    trigcnt = trigcnt + 1;
+    
     // Schedule acquisition from the photodiode for the duration specified
-    if (timer1.size() < 1) { // Only start a new acquisition if the old one is completed
+    if (timer1.size() < 1 && DAQIsReady) { // Only start a new acquisition if the old one is completed
+      DAQIsReady = false;
+      trigcnt_adc = trigcnt;      
       t0 = micros() + 1000; // Set "acquisition time-zero" to one thousand microseconds into the future to get everything set up first
 
       // Schedule the acquisition starts and stops
@@ -100,16 +117,31 @@ void getValue(SCPI_C commands, SCPI_P parameters, Stream& interface) {
   interface.println(integration, 8); // Print to eight decimal places
 }
 
+
+void getTrigCount(SCPI_C commands, SCPI_P parameters, Stream& interface) {
+  interface.println(trigcnt);
+}
+
+void setTrigCount(SCPI_C commands, SCPI_P parameters, Stream& interface) { 
+  if(parameters.Size() > 0) {
+    trigcnt = strtoul(parameters[0], NULL, 0);
+  }
+}
+
 void setup() {
   my_instrument.RegisterCommand(F("*IDN?"), &identify);
   my_instrument.SetCommandTreeBase(F("MEASurement:"));
   my_instrument.RegisterCommand(F("DURation"), &setDuration);
   my_instrument.RegisterCommand(F("DURation?"), &getDuration);
   my_instrument.RegisterCommand(F("VALue?"), &getValue);
-
-  attachInterrupt(digitalPinToInterrupt(EXTTRIG), myISR, RISING); // Set up external triggering
+  my_instrument.SetCommandTreeBase(F("SYStem:"));
+  my_instrument.RegisterCommand(F("TRIGCount"), &setTrigCount);
+  my_instrument.RegisterCommand(F("TRIGCount?"), &getTrigCount);
 
   Serial.begin(9600);
+  
+  attachInterrupt(digitalPinToInterrupt(EXTTRIG), myISR, RISING); // Set up external triggering
+  DAQIsReady = true;
 }
 
 void loop() {
