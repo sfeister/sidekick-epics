@@ -10,13 +10,13 @@ Important Notes:
  * This integration is the only measurement value obtainable via Serial commands.
  * External trigger should be wired to Arduino Pin 2.
  * Photodiode signal should be wired to Arduino Pin A0.
- * Unsolicited, broadcasts data in a format "DATA: XXXXXX, TRIGCNT: XXXXXXX"
 
 Serial Commands (lower-case portions are optional):
   *IDN?                       Responds with a device identification string.
   MEASurement:DURation VAL    Sets photodiode ADC integration duration to VAL (unsigned long integer, in microseconds).
   MEASurement:DURation?       Responds with photodiode ADC integration pulse duration (unsigned long integer, in microseconds).
-  MEASurement:VALue?          Responds with the integration measurement (double, in Volts-seconds) from the most recent acquisition.
+  MEASurement:DATa?           Responds with the most recent integration measurement (double, in Volts-seconds), along with its trigger count, as a formatted string
+                              The format of this response is "DAT: XXXXXX, TRIG: XXXXXXX", where DAT: gives the data and TC: gives the trigger count
   SYStem:TRIGCount VAL        Sets the current system trigger count (unsigned long integer). Value is zero on startup and increments with each trigger input.
   SYStem:TRIGCount?           Responds with the current system trigger count (unsigned long integer).
 
@@ -50,14 +50,16 @@ double areadmaxvolts = 3.3; // Analog read voltage corresponding to maximum valu
 bool ADCcontinue = false;
 bool DAQIsReady = false; // true only when all is clear to begin a new acquisition
 unsigned long t0;
-String datMsgPrefix = "DATA: ";
-String datMsgMiddle = ", TRIGCNT: ";
+String datMsgPrefix = "DAT: ";
+String datMsgMiddle = ", TRIG: ";
+String datMsg;
 
 SCPI_Parser my_instrument;
 
 /* Data acquisition functions */
 bool DAQRead(void *argument) { // Called repeatedly in short time intervals -- keep as simple as possible
     sum = sum + analogRead(PHOTOPIN);
+    // sum = max(sum, analogRead(PHOTOPIN)); // Debug only
     return ADCcontinue; // true to repeat the action - false to stop
 }
     
@@ -74,7 +76,10 @@ bool DAQStop(void *argument) {
     ADCcontinue = false;
     trigcnt_dat = trigcnt_adc;
     integration = (sum * dt) * (areadmaxvolts / areadmax) * 1e-6; // Compute integration value from sum, in Volt-seconds
-    Serial.println(datMsgPrefix + integration + datMsgMiddle + trigcnt_dat);
+    // integration = sum; // Debug only
+    
+    datMsg = datMsgPrefix + String(integration, 8) + datMsgMiddle + String(trigcnt_dat); // Create an atomic data message which contains both trigger count and the data itself
+    //Serial.println(datMsg); // Debug only
     DAQIsReady = true; // allow another acquisition to occur
     return false; // to repeat the action - false to stop
 }
@@ -113,8 +118,8 @@ void setDuration(SCPI_C commands, SCPI_P parameters, Stream& interface) {
   }
 }
 
-void getValue(SCPI_C commands, SCPI_P parameters, Stream& interface) { 
-  interface.println(integration, 8); // Print to eight decimal places
+void getData(SCPI_C commands, SCPI_P parameters, Stream& interface) { 
+  interface.println(datMsg); // Print the data
 }
 
 
@@ -133,7 +138,7 @@ void setup() {
   my_instrument.SetCommandTreeBase(F("MEASurement:"));
   my_instrument.RegisterCommand(F("DURation"), &setDuration);
   my_instrument.RegisterCommand(F("DURation?"), &getDuration);
-  my_instrument.RegisterCommand(F("VALue?"), &getValue);
+  my_instrument.RegisterCommand(F("DATa?"), &getData);
   my_instrument.SetCommandTreeBase(F("SYStem:"));
   my_instrument.RegisterCommand(F("TRIGCount"), &setTrigCount);
   my_instrument.RegisterCommand(F("TRIGCount?"), &getTrigCount);
