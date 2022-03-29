@@ -1,0 +1,47 @@
+# Sidekick EPICS photodetector protocol file
+# Built by examining examples at: https://paulscherrerinstitute.github.io/StreamDevice/protocol.html#gen
+
+Terminator = CR LF;
+
+info {
+	ExtraInput = Ignore;
+	out "*IDN?";
+	in "%39c";
+}
+
+# Data is returned as a string, so we can't
+data {
+	ExtraInput = Ignore;
+	out "MEASurement:DATa?";
+	in "%39c";
+}
+
+# Trigger count is an unsigned long integer
+# Use int64 record type
+getTrigCount {
+        out "SYStem:TRIGCount?";
+        in "%u";
+    }
+
+setTrigCount {
+        out "SYStem:TRIGCount %u";
+        @init { getTrigCount; }
+    }
+
+# Duration is an unsigned long integer
+# Use int64 record type
+getDuration {
+        out "MEASurement:DURation?";
+        in "%u";
+    }
+
+setDuration {
+        out "MEASurement:DURation %u";
+        @init { getDuration; }
+    }
+    
+debug {
+   ExtraInput = Ignore;
+   out "%s";
+   in "%39c";
+}
