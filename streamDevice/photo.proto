@@ -9,7 +9,7 @@ info {
 	in "%39c";
 }
 
-# Data is returned as a string, so we can't
+# Data is returned as a string, so that it is bundled with its trigger count
 data {
 	ExtraInput = Ignore;
 	out "MEASurement:DATa?";
