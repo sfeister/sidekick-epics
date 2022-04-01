@@ -5,7 +5,7 @@ streamApp_registerRecordDeviceDriver
 
 epicsEnvSet "STREAM_PROTOCOL_PATH","."
 
-drvAsynSerialPortConfigure("photo_ino","/dev/ttyUSB1")
+drvAsynSerialPortConfigure("photo_ino","/dev/ttyUSB0")
 asynSetOption("photo_ino",0,"baud","9600")
 asynSetOption("photo_ino",0,"bits","8")
 asynSetOption("photo_ino",0,"parity","none")
