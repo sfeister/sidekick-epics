@@ -49,7 +49,7 @@ Timer<10, micros, int> timer1; // TTL pulse timer with 10 task slots, microsecon
 Timer<1, millis> timer2; // rep-rate timer with 1 task slot, millisecond resolution, and void-type handler
 
 int chanPins[NCHAN]; // Pins for each channel
-int delays[NCHAN]; // Millisecond delay times for each channel
+unsigned long delays[NCHAN]; // Millisecond delay times for each channel
 
 int pulseTime = 3000; // TTL pulse duration in microseconds
 double repRate = 0.5; // pulse repetition-rate in Hz
@@ -95,7 +95,7 @@ void updateRepRate(double repRateHz){
 
 /* Serial communication functions */
 void identify(SCPI_C commands, SCPI_P parameters, Stream& interface) {
-  interface.println(F("DolphinDAQ,Arduino PulseGen,#00,v0.1"));
+  interface.println(F("DolphinDAQ,Arduino PulseGen,#00,v0.2"));
 }
 
 
