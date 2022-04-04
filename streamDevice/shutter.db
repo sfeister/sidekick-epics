@@ -9,7 +9,7 @@ record(int64out,"SHUTTER:dur"){
     field(DESC, "Set shutter-open duration (output)")
 	field(DTYP,"stream")
 	field(DRVL,"0")
-	field(DRVH,"4294967295") # on Arduino, saved as unsigned 32-bit integer; max value is 2^32 - 1
+	field(DRVH,"10000000") # restrict users from setting overly high times
 	field(EGU,"micros")
 	field(OUT,"@shutter.proto setDuration shutter_ino")
 }

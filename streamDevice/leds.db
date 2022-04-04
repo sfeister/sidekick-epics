@@ -19,7 +19,7 @@ record(int64out,"LEDS:CH0:dur"){
     field(DESC, "Set LED duration (output)")
 	field(DTYP,"stream")
 	field(DRVL,"0")
-	field(DRVH,"4294967295") # on Arduino, saved as unsigned 32-bit integer; max value is 2^32 - 1
+	field(DRVH,"10000000") # restrict users from setting overly high times
 	field(EGU,"micros")
 	field(OUT,"@leds.proto setDuration(0) led_ino")
 }
@@ -38,7 +38,7 @@ record(int64out,"LEDS:CH1:dur"){
     field(DESC, "Set LED duration (output)")
 	field(DTYP,"stream")
 	field(DRVL,"0")
-	field(DRVH,"4294967295") # on Arduino, saved as unsigned 32-bit integer; max value is 2^32 - 1
+	field(DRVH,"10000000") # restrict users from setting overly high times
 	field(EGU,"micros")
 	field(OUT,"@leds.proto setDuration(1) led_ino")
 }
@@ -58,7 +58,7 @@ record(int64out,"LEDS:CH2:dur"){
     field(DESC, "Set LED duration (output)")
 	field(DTYP,"stream")
 	field(DRVL,"0")
-	field(DRVH,"4294967295") # on Arduino, saved as unsigned 32-bit integer; max value is 2^32 - 1
+	field(DRVH,"10000000") # restrict users from setting overly high times
 	field(EGU,"micros")
 	field(OUT,"@leds.proto setDuration(2) led_ino")
 }
@@ -77,7 +77,7 @@ record(int64out,"LEDS:CH3:dur"){
     field(DESC, "Set LED duration (output)")
 	field(DTYP,"stream")
 	field(DRVL,"0")
-	field(DRVH,"4294967295") # on Arduino, saved as unsigned 32-bit integer; max value is 2^32 - 1
+	field(DRVH,"10000000") # restrict users from setting overly high times
 	field(EGU,"micros")
 	field(OUT,"@leds.proto setDuration(3) led_ino")
 }
@@ -99,7 +99,7 @@ record(int64out,"LEDS:CH4:dur"){
     field(DESC, "Set LED duration (output)")
 	field(DTYP,"stream")
 	field(DRVL,"0")
-	field(DRVH,"4294967295") # on Arduino, saved as unsigned 32-bit integer; max value is 2^32 - 1
+	field(DRVH,"10000000") # restrict users from setting overly high times
 	field(EGU,"micros")
 	field(OUT,"@leds.proto setDuration(4) led_ino")
 }
@@ -120,7 +120,7 @@ record(int64out,"LEDS:CH5:dur"){
     field(DESC, "Set LED duration (output)")
 	field(DTYP,"stream")
 	field(DRVL,"0")
-	field(DRVH,"4294967295") # on Arduino, saved as unsigned 32-bit integer; max value is 2^32 - 1
+	field(DRVH,"10000000") # restrict users from setting overly high times
 	field(EGU,"micros")
 	field(OUT,"@leds.proto setDuration(5) led_ino")
 }
