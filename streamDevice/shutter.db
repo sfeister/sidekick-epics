@@ -14,6 +14,14 @@ record(int64out,"SHUTTER:dur"){
 	field(OUT,"@shutter.proto setDuration shutter_ino")
 }
 
+record(bo,"SHUTTER:enable"){
+    field(DESC, "Enable shutter (output)")
+	field(DTYP,"stream")
+	field(ZNAM,"Disabled")
+	field(ONAM,"Enabled")
+	field(OUT,"@shutter.proto setEnable shutter_ino")
+}
+
 
 record(stringin,"SHUTTER:debug"){
 	field(DTYP,"stream")

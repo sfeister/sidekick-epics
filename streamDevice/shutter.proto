@@ -20,6 +20,16 @@ setDuration {
         out "SHUtter:DURation %u";
         @init { getDuration; }
     }
+
+getEnable {
+        out "SHUtter:ENable?";
+        in "%u";
+    }
+
+setEnable {
+        out "SHUtter:ENable %u";
+        @init { getEnable; }
+    }
     
 debug {
    ExtraInput = Ignore;
