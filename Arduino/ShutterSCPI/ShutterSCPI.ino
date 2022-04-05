@@ -13,8 +13,10 @@ Important Notes:
 
 Serial Commands (lower-case portions are optional):
   *IDN?                 Responds with a device identification string.
-  SHUtter:DURation VAL    Sets shutter-open time duration to VAL (unsigned long integer, in microseconds).
-  SHUtter:DURation?       Responds with shutter-open time duration (unsigned long integer, in microseconds).
+  SHUtter:DURation VAL   Sets shutter-open time duration to VAL (unsigned long integer, in microseconds).
+  SHUtter:DURation?      Responds with shutter-open time duration (unsigned long integer, in microseconds).
+  SHUtter:ENable 0|1    Sets shutter to enabled (1) or disabled (0)   
+  SHUtter:ENable?      Responds with whether shutter to enabled (1) or disabled (0)
 
 References:
  1. Following timer instructions at: https://github.com/contrem/arduino-timer
@@ -39,6 +41,7 @@ SCPI_Parser my_instrument;                                //starts the SCPI comm
 Servo myservo;                                            //creates a Servo called "myservo"
 unsigned long duration1 = 500000; // duration of the shutter being open, in microseconds
 unsigned long t0;
+bool enabled; // whether the shutter is enabled
 
 /* Shutter control functions */
 bool shutterClose(void *argument) {
@@ -58,7 +61,7 @@ bool shutterOpen(void *argument) {
 // Starts one-time timers that govern the open/close sequence of the shutter
 void myISR() {
     // Schedule acquisition from the photodiode for the duration specified
-    if (timer1.size() < 1) { // Only start a new shutter open/close sequence if the old one is completed
+    if ((timer1.size() < 1) & enabled) { // Only start a new shutter open/close sequence if the old one is completed, and shutter is enabled
       t0 = micros() + 1000; // Set "shutter time-zero" to one thousand microseconds into the future to get everything set up first
 
       // Schedule the acquisition starts and stops
@@ -83,11 +86,23 @@ void setDuration(SCPI_C commands, SCPI_P parameters, Stream& interface) {
   }
 }
 
+void getEnable(SCPI_C commands, SCPI_P parameters, Stream& interface) {
+  interface.println(enabled);
+}
+
+void setEnable(SCPI_C commands, SCPI_P parameters, Stream& interface) { 
+  if(parameters.Size() > 0) {
+    enabled = String(parameters[0]).toInt();
+  }
+}
+
 void setup() {
   my_instrument.RegisterCommand(F("*IDN?"), &identify);     //first command "*IDN?"
   my_instrument.SetCommandTreeBase(F("SHUtter:"));            //beginning to all other commands falls under the "SHU"tter tree
   my_instrument.RegisterCommand(F("DURation"), &setDuration);    //sets time duration of the open shutter
   my_instrument.RegisterCommand(F("DURation?"), &getDuration);    //gets time duration of the open shutter
+  my_instrument.RegisterCommand(F("ENable"), &setEnable);     //sets whether shutter is enabled
+  my_instrument.RegisterCommand(F("ENable?"), &getEnable);     //gets whether shutter is enabled
   
   myservo.attach(SERVOPIN);                               //connects the name 'myservo' to the pin the Servo is attached to
 
