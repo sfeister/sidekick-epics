@@ -41,7 +41,7 @@ SCPI_Parser my_instrument;                                //starts the SCPI comm
 Servo myservo;                                            //creates a Servo called "myservo"
 unsigned long duration1 = 500000; // duration of the shutter being open, in microseconds
 unsigned long t0;
-bool enabled; // whether the shutter is enabled
+bool enabled = true; // whether the shutter is enabled
 
 /* Shutter control functions */
 bool shutterClose(void *argument) {
@@ -90,9 +90,19 @@ void getEnable(SCPI_C commands, SCPI_P parameters, Stream& interface) {
   interface.println(enabled);
 }
 
-void setEnable(SCPI_C commands, SCPI_P parameters, Stream& interface) { 
+void setEnable(SCPI_C commands, SCPI_P parameters, Stream& interface) {
+  // Cancels all timers, then opens / closes shutter according to status 
   if(parameters.Size() > 0) {
     enabled = String(parameters[0]).toInt();
+    
+    // Cancel all timer tasks
+    void cancel();
+    
+    if (enabled) {
+      shutterClose(0);
+    } else {
+      shutterOpen(0);
+    }
   }
 }
 
