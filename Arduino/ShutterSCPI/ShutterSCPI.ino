@@ -41,7 +41,7 @@ SCPI_Parser my_instrument;                                //starts the SCPI comm
 Servo myservo;                                            //creates a Servo called "myservo"
 unsigned long duration1 = 500000; // duration of the shutter being open, in microseconds
 unsigned long t0;
-bool enabled = true; // whether the shutter is enabled
+bool enabled = false; // whether the shutter is enabled
 
 /* Shutter control functions */
 bool shutterClose(void *argument) {
@@ -118,7 +118,7 @@ void setup() {
 
   attachInterrupt(digitalPinToInterrupt(EXTTRIG), myISR, RISING); // Set up external triggering
 
-  shutterClose(NULL);
+  shutterOpen(NULL);
   Serial.begin(9600);                                     //begins the Serial.monitor sequence
 }
 
