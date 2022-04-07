@@ -12,8 +12,7 @@ info {
 # Data is returned as a string, so that it is bundled with its trigger count
 data {
 	ExtraInput = Ignore;
-	out "MEASurement:DATa?";
-	in "%39c";
+	in "STREAM %39c";
 }
 
 # Trigger count is an unsigned long integer

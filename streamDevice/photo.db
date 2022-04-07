@@ -8,7 +8,7 @@ record(stringin,"PHOTO:info"){
 record(stringin,"PHOTO:data"){
     field (DESC, "Get photodetector data")
 	field(DTYP,"stream")
-    field(SCAN,".1 second")
+    field(SCAN,"I/O Intr")
 	field(INP,"@photo.proto data photo_ino")
     field(PINI, "YES")
 }
