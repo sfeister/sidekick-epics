@@ -89,17 +89,16 @@ bool DAQStop(void *argument) {
     integration =  avg_volts * (duration_daq * 1e-6); // Compute integration value from ADC average in the DAQ period, in Volt-seconds
     // integration = sum_daq; // Debug only
     
-    datMsg = String("STREAM ") + datMsgPrefix + String(integration, 8) + datMsgMiddle + String(trigcnt_dat); // Create an atomic data message which contains both trigger count and the data itself
-    Serial.println(datMsg); // Streaming data print
+    datMsg = datMsgPrefix + String(integration, 12) + datMsgMiddle + String(trigcnt_dat); // Create an atomic data message which contains both trigger count and the data itself
+    Serial.println(String("STREAM ") + datMsg); // Streaming data print
 
     if (debugmode) {
       dt = duration_daq / ncounts_daq;
       Serial.println("DURATION_DAQ: " + String(duration_daq) + " us"); // Streaming data print
       Serial.println("DURATION1: " + String(duration1) + " us"); // Streaming data print
       Serial.println("DT: " + String(dt) + " us"); // Streaming data print
-      Serial.println("AVG_DAQ: " + String(avg_daq, 8)); // Streaming data print
-      Serial.println("AVG_VOLTS: " + String(avg_volts) + " V"); // Streaming data print
-      Serial.println("AVG_DAQ: " + String(avg_daq, 8)); // Streaming data print
+      Serial.println("AVG_VOLTS: " + String(avg_volts, 12) + " V"); // Streaming data print
+      Serial.println("AVG_DAQ: " + String(avg_daq, 12)); // Streaming data print
       Serial.println("NCOUNTS: " + String(ncounts_daq)); // Streaming data print    
     }
     DAQIsReady = true; // allow another acquisition to occur
