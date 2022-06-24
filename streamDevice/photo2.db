@@ -1,0 +1,37 @@
+record(stringin,"PHOTO2:info"){
+    field (DESC, "Get information about photodetector")
+	field(DTYP,"stream")
+	field(INP,"@photo.proto info photo2_ino")
+    field(PINI, "YES")
+}
+
+record(stringin,"PHOTO2:data"){
+    field (DESC, "Get photodetector data")
+	field(DTYP,"stream")
+    field(SCAN,"I/O Intr")
+	field(INP,"@photo.proto data photo2_ino")
+    field(PINI, "YES")
+}
+
+record(int64out,"PHOTO2:dur"){
+    field(DESC, "Set photodet. integration duration")
+	field(DTYP,"stream")
+	field(DRVL,"0")
+	field(DRVH,"10000000") # restrict users from setting overly high times
+	field(EGU,"micros")
+	field(OUT,"@photo.proto setDuration photo2_ino")
+}
+
+record(int64out,"PHOTO2:trigcnt"){
+    field(DESC, "Set photodet. trigger count")
+	field(DTYP,"stream")
+	field(DRVL,"0")
+	field(DRVH,"4294967295") # on Arduino, saved as unsigned 32-bit integer; max value is 2^32 - 1
+	field(EGU,"trigger events")
+	field(OUT,"@photo.proto setTrigCount photo2_ino")
+}
+
+record(stringin,"PHOTO2:debug"){
+	field(DTYP,"stream")
+	field(INP,"@photo.proto debug photo2_ino")
+}
